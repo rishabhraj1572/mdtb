@@ -41,8 +41,9 @@ def echo(client, message):
         }
 
         resp = requests.get(url=URL, headers=header).json()['source']
+        name = requests.get(url=URL, headers=header).json()['filename']
         out = resp
-        app.send_message(message.chat.id, out)
+        app.send_message(message.chat.id, name+"\n\n"+out)
     except:
         app.send_message(message.chat.id, 'send only mdisk link with command followed by link')
 
