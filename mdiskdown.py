@@ -6,22 +6,6 @@ import mdisk
 import split
 
 
-inp = input('Enter the Link: ')
-fxl = inp.split("/")
-cid = fxl[-1]
-
-URL = f'https://diskuploader.entertainvideo.com/v1/file/cdnurl?param={cid}'
-
-header = {
-    'Accept': '*/*',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Referer': 'https://mdisk.me/',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'
-}
-
-resp = requests.get(url=URL, headers=header).json()['source']
-print(resp)
 
 
 bot_token = os.environ.get("TOKEN", "") 
@@ -30,7 +14,6 @@ api_id = os.environ.get("ID", "")
 
 app = Client("my_bot",api_id=api_id, api_hash=api_hash,bot_token=bot_token)
 
-TG_SPLIT_SIZE = 2097151000
 
 @app.on_message(filters.command(["start"]))
 def echo(client, message):
@@ -43,7 +26,21 @@ def echo(client, message):
 @app.on_message(filters.command(["mdisk"]))
 def echo(client, message):
     try:
-        link = message.text.split("mdisk ")[1]
+        inp = message.text.split("mdisk ")[1]
+        fxl = inp.split("/")
+        cid = fxl[-1]
+
+        URL = f'https://diskuploader.entertainvideo.com/v1/file/cdnurl?param={cid}'
+
+        header = {
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://mdisk.me/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'
+        }
+
+        resp = requests.get(url=URL, headers=header).json()['source']
         if "mdisk" in link:
             out = resp
             app.send_message(message.chat.id, out)
