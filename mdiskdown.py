@@ -25,7 +25,6 @@ def echo(client, message):
 
 @app.on_message(filters.command(["mdisk"]))
 def echo(client, message):
-    try:
         inp = message.text.split("mdisk ")[1]
         fxl = inp.split("/")
         cid = fxl[-1]
@@ -43,7 +42,5 @@ def echo(client, message):
         resp = requests.get(url=URL, headers=header).json()['source']
         out = resp
         app.send_message(message.chat.id, out)
-    except:
-        app.send_message(message.chat.id, 'send only mdisk link with command followed by link')
 
-app.run()    
+app.run()
