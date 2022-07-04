@@ -20,7 +20,15 @@ def echo(client, message):
 '''async def progress(current, total):
     await app.send_message(message.chat.id,f"{current * 100 / total:.1f}%")'''
 
-def req(link):
-    app.send_message(message.chat.id, resp)
+@app.on_message(filters.command(["mdisk"]))
+def echo(client, message):
+    try:
+        link = message.text.split("mdisk ")[1]
+        if "mdisk" in link:
+            out = mdisk.req(link)
+            app.send_message(message.chat.id, out)
+    except:
+        app.send_message(message.chat.id, 'send only mdisk link with command followed by link')
+
 
 app.run()    
