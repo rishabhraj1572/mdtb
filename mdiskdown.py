@@ -42,8 +42,20 @@ def echo(client, message):
 
         resp = requests.get(url=URL, headers=header).json()['source']
         name = requests.get(url=URL, headers=header).json()['filename']
-        out = resp
-        app.send_message(message.chat.id, name+"\n\n"+out)
+        size = requests.get(url=URL, headers=header).json()['size']
+        if size>1073741824 :
+            kb=(size/1024)
+            mb=(kb/1024)
+            gb=(mb/1024)
+            gbs = str(round(gb, 2))
+            out = resp
+            app.send_message(message.chat.id, name+" ["+gbs+"GB]"+"\n\n"+out)
+        else:
+            kb=(size//1024)
+            mb=(kb//1024)
+            mbs = str(round(mb, 2))
+            out = resp
+            app.send_message(message.chat.id, name+" ["+mbs+"MB]"+"\n\n"+out)    
     except:
         app.send_message(message.chat.id, 'send only mdisk link with command followed by link')
 
