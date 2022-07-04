@@ -24,9 +24,22 @@ def echo(client, message):
 def echo(client, message):
     try:
         link = message.text.split("mdisk ")[1]
-        if "mdisk" in link:
-            out = mdisk.req(link)
-            app.send_message(message.chat.id, out)
+        inp = link #input('Enter the Link: ')
+        fxl = inp.split("/")
+        cid = fxl[-1]
+
+        URL = f'https://diskuploader.entertainvideo.com/v1/file/cdnurl?param={cid}'
+
+        header = {
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': 'https://mdisk.me/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'
+        }
+        resp = requests.get(url=URL, headers=header).json()['source']
+    
+        app.send_message(message.chat.id, resp)
     except:
         app.send_message(message.chat.id, 'send only mdisk link with command followed by link')
 
